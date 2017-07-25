@@ -8,7 +8,7 @@ import { NotImplementedError, last, interleave } from "./utils";
 export class Referent {
   static symbol = "?";
 
-  instantiate(xs: Array<Referent>) {
+  instantiate(xs: Array<Referent>): Referent {
     throw new NotImplementedError();
   }
 
@@ -16,7 +16,7 @@ export class Referent {
     throw new NotImplementedError();
   }
 
-  symbol() {
+  symbol(): string {
     return this.constructor.symbol;
   }
 }
@@ -51,17 +51,17 @@ export class Message extends Referent {
     return new Message(text, ...args);
   }
 
-  format(names: Array<string>) {
+  format(names: Array<string>): string {
     return interleave(this.text, names).join("");
   }
 
-  formatWithIndices(indices: Array<number>) {
+  formatWithIndices(indices: Array<number>): string {
     assert.equal(indices.length, this.args.length);
     const names = indices.map((index, i) => `${this.args[i].symbol()}${index}`);
     return this.format(names);
   }
 
-  instantiate(xs: Array<Referent>) {
+  instantiate(xs: Array<Referent>): Message {
     return new Message(this.text, ...this.args.map(arg => arg.instantiate(xs)));
   }
 
@@ -86,7 +86,7 @@ export class Channel<AgentType> extends Referent {
     this.agent = agent;
   }
 
-  instantiate(xs: Array<Referent>) {
+  instantiate(xs: Array<Referent>): Referent {
     throw new Error("should not try to instantiate a channel");
   }
 }
@@ -115,11 +115,11 @@ export class Pointer extends Referent {
     return xs[this.n];
   }
 
-  symbol() {
+  symbol(): string {
     return `${this.type.symbol}->`;
   }
 
-  toString() {
+  toString(): string {
     return `${this.symbol()}${this.n.toString()}`;
   }
 }

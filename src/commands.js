@@ -95,7 +95,7 @@ export class Ask extends Command {
     this.budget = modifiers.budget;
   }
 
-  recipient(env: BudgetedHCH) {
+  recipient(env: BudgetedHCH): BudgetedHCH {
     if (this.recipientChannelPointer) {
       const channel = this.recipientChannelPointer.instantiate(env.args);
       if (!(channel instanceof Channel)) {

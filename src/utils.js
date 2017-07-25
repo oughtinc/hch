@@ -9,7 +9,7 @@ export function last<T>(xs: Array<T>): T {
   return xs[xs.length - 1];
 }
 
-export function range(low: number, high: number) {
+export function range(low: number, high: number): Array<number> {
   return Array.from(new Array(high - low), (x, i) => i + low);
 }
 
@@ -51,7 +51,7 @@ export function elicitInput(
   return readlineSync.question("\n>>> ");
 }
 
-export function clearScreen() {
+export function clearScreen(): void {
   console.log("\x1b[2J\x1b[H");
 }
 
