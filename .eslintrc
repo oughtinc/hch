@@ -2,7 +2,10 @@
   "parser": "babel-eslint",
   "plugins": [
     "flowtype"
-  ],  
+  ],
+  "env": {
+    "node": true
+  },
   "parserOptions": {
       "ecmaVersion": 6,
       "sourceType": "module",
@@ -11,6 +14,7 @@
       }
   },
   "extends": [
+    "eslint:recommended",
     "prettier",
     "prettier/flowtype"
   ]
