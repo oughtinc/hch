@@ -1,10 +1,10 @@
 // @flow
 
 import type { Human, Budget } from "./agent";
-import { Agent, Budgeter, BudgetedAgent } from "./agent";
-import { Message, Pointer, Channel, Referent, withSender } from "./message";
+import { Budgeter, BudgetedAgent } from "./agent";
+import { Message, Referent } from "./message";
 import { parseCommand, parseMessage } from "./parser";
-import { assert, range } from "./utils";
+import { range } from "./utils";
 
 export function HCH(h: Human, n: Budget): Budgeter<Message, Message> {
   return new Budgeter(new BudgetedHCH(h), n);

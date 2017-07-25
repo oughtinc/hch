@@ -1,6 +1,6 @@
 // @flow
 
-import type { Agent, Budget } from "./agent";
+import type { Budget } from "./agent";
 import type { BudgetedHCH } from "./hch";
 import { NotImplementedError } from "./utils";
 import { Message, Channel, Pointer, withSender } from "./message";

@@ -1,6 +1,5 @@
 // @flow
 
-import { Message } from "./message";
 import { human } from "./agent";
 import { HCH } from "./hch";
 import { parseMessage } from "./parser";

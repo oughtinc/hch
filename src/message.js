@@ -1,7 +1,6 @@
 // @flow
 
 import * as assert from "assert";
-import { Agent, BudgetedAgent } from "./agent";
 import { NotImplementedError, last, interleave } from "./utils";
 
 // A Referent is anything that can be referred to in a message,
