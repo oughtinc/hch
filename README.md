@@ -1,6 +1,6 @@
 # HCH
 
-This is a re-implementation of Paul Christiano's [HCH](https://ai-alignment.com/strong-hch-bedb0dc08d4e) in Javascript (NodeJS). It is directly based on the [Python implementation of ALBA](https://github.com/paulfchristiano/alba/).
+This is an implementation of Paul Christiano's [HCH](https://ai-alignment.com/strong-hch-bedb0dc08d4e) in Javascript (NodeJS). It is directly based on the [Python implementation of ALBA](https://github.com/paulfchristiano/alba/).
 
 ## How to use
 
@@ -14,6 +14,8 @@ Install:
 Then:
 
     node build/index.js
+
+See the [ALBA README](https://github.com/paulfchristiano/alba/blob/master/README.md#using-hch) for instructions on how to interact with HCH.
 
 ## Development
 
