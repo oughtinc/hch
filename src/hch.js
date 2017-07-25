@@ -1,18 +1,10 @@
 // @flow
 
-import path from "path";
-import fs from "fs";
-import peg from "pegjs";
 import type { Human, Budget } from "./agent";
 import { Agent, Budgeter, BudgetedAgent } from "./agent";
 import { Message, Pointer, Channel, Referent, withSender } from "./message";
-import { Command, MalformedCommand } from "./commands";
+import { parseCommand, parseMessage } from "./parser";
 import { assert, range } from "./utils";
-
-// For parser environment:
-import * as CommandModule from "./commands";
-import * as MessageModule from "./message";
-import * as UtilsModule from "./utils";
 
 export function HCH(h: Human, n: Budget): Budgeter<Message, Message> {
   return new Budgeter(new BudgetedHCH(h), n);
@@ -97,41 +89,5 @@ export class BudgetedHCH extends BudgetedAgent<Message, Message> {
       s += `\n[Remaining budget is ${budget.toString()}]`;
     }
     return s;
-  }
-}
-
-const grammar = fs.readFileSync(path.join(__dirname, "../src/grammar.pegjs"), {
-  encoding: "utf8"
-});
-
-const messageParser = peg.generate(grammar, {
-  allowedStartRules: ["Message"]
-});
-
-const commandParser = peg.generate(grammar, {
-  allowedStartRules: ["Command"]
-});
-
-const parseEnv = {
-  commands: CommandModule,
-  message: MessageModule,
-  utils: UtilsModule
-};
-
-export function parseMessage(text: string): Message {
-  try {
-    return messageParser.parse(text, parseEnv);
-  } catch (e) {
-    console.error(e);
-    return new Message("<<malformed message>>");
-  }
-}
-
-export function parseCommand(text: string): Command {
-  try {
-    return commandParser.parse(text, parseEnv);
-  } catch (e) {
-    console.error(e);
-    return new MalformedCommand();
   }
 }
