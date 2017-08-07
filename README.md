@@ -21,20 +21,20 @@ See the [ALBA README](https://github.com/paulfchristiano/alba/blob/master/README
 
 Open bash environment with node:
 
-    docker run -it -v $(pwd):/data -w /data node bash
+    docker-compose run bash
 
 Build and run index.js:
 
-    docker run -it -v $(pwd):/data -w /data node bash -c "yarn build && node build/index.js"
+    docker-compose run hch
 
 Build index.js and run in debugger:
 
-    docker run -it --expose 9229 -p 127.0.0.1:9229:9229 -v $(pwd):/data -w /data node bash -c "yarn build && node --inspect=0.0.0.0:9229 --debug-brk build/index.js"
+    docker-compose run --service-ports debug
 
 Run Flow type checker:
 
-    docker run -it -v $(pwd):/data -w /data node watch --color "node_modules/.bin/flow --color always"
+    docker-compose run flow
     
 Run ESLint:
 
-    docker run -it -v $(pwd):/data -w /data node bash -c 'watch --color "node_modules/.bin/esw . --color --ext .jsx --ext .js"'
+    docker-compose run eslint

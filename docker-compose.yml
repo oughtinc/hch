@@ -1,0 +1,46 @@
+version: "3"
+services:
+  bash:
+    image: node:latest
+    stdin_open: true
+    tty: true
+    volumes:
+        - .:/data
+    working_dir: /data
+    command: /bin/bash
+  hch:
+    image: node:latest
+    stdin_open: true
+    tty: true
+    volumes:
+        - .:/data
+    working_dir: /data
+    command: "/bin/bash -c 'yarn build && node build/index.js'"
+  debug:
+    image: node:latest
+    stdin_open: true
+    tty: true
+    volumes:
+        - .:/data
+    working_dir: /data
+    ports:
+        - "127.0.0.1:9229:9229"
+    expose:
+        - 9229
+    command: "/bin/bash -c 'yarn build && node --inspect=0.0.0.0:9229 --debug-brk build/index.js'"
+  flow:
+    image: node:latest
+    stdin_open: true
+    tty: true
+    volumes:
+        - .:/data
+    working_dir: /data
+    command: "watch --color 'node_modules/.bin/flow --color always'"
+  eslint:
+    image: node:latest
+    stdin_open: true
+    tty: true
+    volumes:
+        - .:/data
+    working_dir: /data
+    command: "watch --color 'node_modules/.bin/esw . --color --ext .jsx --ext .js'"
