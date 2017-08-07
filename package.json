@@ -1,7 +1,7 @@
 {
   "name": "hch",
   "version": "1.0.0",
-  "main": "src/index.js",
+  "main": "build/index.js",
   "scripts": {
     "build": "babel src/ -d build/",
     "test": "yarn run build && node build/index.js",
