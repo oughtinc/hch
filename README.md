@@ -13,7 +13,7 @@ Install:
 
 Then:
 
-    node build/index.js
+    node build/example.js
 
 See the [ALBA README](https://github.com/paulfchristiano/alba/blob/master/README.md#using-hch) for instructions on how to interact with HCH.
 
