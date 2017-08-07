@@ -9,7 +9,7 @@ export class Agent<O, A> {
   }
 }
 
-type Policy<O, A> = (observations: Array<O>, actions: Array<A>) => A;
+export type Policy<O, A> = (observations: Array<O>, actions: Array<A>) => A;
 
 export class StatelessAgent<O, A> extends Agent<O, A> {
   observations: Array<O>;

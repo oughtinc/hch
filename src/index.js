@@ -1,12 +1,17 @@
 // @flow
 
-import { human } from "./agent";
-import { HCH } from "./hch";
-import { parseMessage } from "./parser";
+export type { Policy, Human, Budget } from "./agent";
+export type { ExecutionResult } from "./commands";
 
-const hch = new HCH(human, 10e6);
-const startMessage = parseMessage(
-  "How many (ping pong balls) fit into a (Boeing 747)"
-);
-const result = hch.act(startMessage);
-console.log(result.action.toString());
+export { Agent, StatelessAgent, human, BudgetedAgent, Budgeter } from "./agent";
+export {
+  Command,
+  MalformedCommand,
+  Reflect,
+  View,
+  Reply,
+  Ask
+} from "./commands";
+export { HCH, BudgetedHCH } from "./hch";
+export { Referent, Message, Channel, withSender, Pointer } from "./message";
+export { parseMessage, parseCommand } from "./parser";
