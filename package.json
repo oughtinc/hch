@@ -30,7 +30,7 @@
     "prettier": "^1.5.3"
   },
   "dependencies": {
-    "pegjs": "^0.10.0",
+    "pegjs": "https://github.com/pegjs/pegjs.git",
     "readline-sync": "^1.4.7"
   }
 }
