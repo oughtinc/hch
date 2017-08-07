@@ -8,13 +8,14 @@
   },
   "parserOptions": {
       "ecmaVersion": 6,
-      "sourceType": "module",
-      "ecmaFeatures": {
-          "jsx": true
-      }
+      "sourceType": "module"
+  },
+  "rules": {
+    "no-console": "off"
   },
   "extends": [
-    "eslint:recommended",
+    "airbnb-base",
+    "plugin:flowtype/recommended",
     "prettier",
     "prettier/flowtype"
   ]
