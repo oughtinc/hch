@@ -1,7 +1,6 @@
 // @flow
 
 import * as assert from "assert";
-import readlineSync from "readline-sync";
 
 export class NotImplementedError extends Error {}
 
@@ -36,23 +35,6 @@ export function interleave<T>(xs: Array<T>, ys: Array<T>): Array<T> {
     result.push(last(xs));
   }
   return result;
-}
-
-export function elicitInput(
-  observations: Array<string>,
-  actions: Array<string>
-): string {
-  clearScreen();
-  const lines = interleave(
-    observations,
-    actions.map(action => `>>> ${action}`)
-  );
-  console.log(lines.join("\n\n"));
-  return readlineSync.question("\n>>> ");
-}
-
-export function clearScreen(): void {
-  console.log("\x1b[2J\x1b[H");
 }
 
 export { assert };

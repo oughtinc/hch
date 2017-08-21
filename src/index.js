@@ -3,7 +3,7 @@
 export type { Policy, Human, Budget } from "./agent";
 export type { ExecutionResult } from "./commands";
 
-export { Agent, StatelessAgent, human, BudgetedAgent, Budgeter } from "./agent";
+export { Agent, StatelessAgent, BudgetedAgent, Budgeter } from "./agent";
 export {
   Command,
   MalformedCommand,

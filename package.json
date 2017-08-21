@@ -6,7 +6,8 @@
     "build": "babel src/ -d build/",
     "test": "yarn run build && node build/index.js",
     "prepublish": "yarn run build",
-    "format": "prettier --write 'src/**/*.{js,jsx}'"
+    "format": "prettier --write 'src/**/*.{js,jsx}'",
+    "prepare": "yarn run build"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -29,8 +30,10 @@
     "flow-bin": "^0.50.0",
     "prettier": "^1.5.3"
   },
-  "dependencies": {
-    "pegjs": "https://github.com/pegjs/pegjs.git",
+  "optionalDependencies": {
     "readline-sync": "^1.4.7"
+  },
+  "dependencies": {
+    "pegjs": "https://github.com/pegjs/pegjs.git"    
   }
 }

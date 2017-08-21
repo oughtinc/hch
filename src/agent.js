@@ -1,6 +1,6 @@
 // @flow
 
-import { NotImplementedError, elicitInput } from "./utils";
+import { NotImplementedError } from "./utils";
 
 // An immutable representation of a (stateful) policy
 export class Agent<O, A> {
@@ -41,8 +41,6 @@ export class StatelessAgent<O, A> extends Agent<O, A> {
 }
 
 export type Human = StatelessAgent<string, string>;
-
-export const human: Human = new StatelessAgent(elicitInput);
 
 export type Budget = number;
 
