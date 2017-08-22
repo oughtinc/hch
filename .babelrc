@@ -7,6 +7,11 @@
     ["transform-runtime", {
        "polyfill": false,
        "regenerator": true
-     }]    
+    }],
+    ["babel-plugin-inline-import", {
+      "extensions": [
+        ".pegjs"
+      ]
+    }]
   ]
 }
