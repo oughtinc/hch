@@ -18,8 +18,6 @@ services:
     command: "/bin/bash -c 'yarn build && node build/example.js'"
   debug:
     image: node:latest
-    stdin_open: true
-    tty: true
     volumes:
         - .:/data
     working_dir: /data
@@ -30,17 +28,21 @@ services:
     command: "/bin/bash -c 'yarn build && node --inspect=0.0.0.0:9229 --debug-brk build/index.js'"
   flow:
     image: node:latest
-    stdin_open: true
-    tty: true
     volumes:
         - .:/data
     working_dir: /data
     command: "watch --color 'node_modules/.bin/flow --color always'"
   eslint:
     image: node:latest
+    volumes:
+        - .:/data
+    working_dir: /data
+    command: "watch --color 'node_modules/.bin/esw . --color --ext .jsx --ext .js'"
+  build:
+    image: node:latest
     stdin_open: true
     tty: true
     volumes:
         - .:/data
     working_dir: /data
-    command: "watch --color 'node_modules/.bin/esw . --color --ext .jsx --ext .js'"
+    command: "yarn build"
