@@ -2,6 +2,13 @@
 
 export type { Policy, Human, Budget } from "./agent";
 export type { ExecutionResult } from "./commands";
+export type {
+  Context,
+  FinalState,
+  IntermediateState,
+  AsyncState,
+  Respond
+} from "./async";
 
 export { Agent, StatelessAgent, BudgetedAgent, Budgeter } from "./agent";
 export {
@@ -15,3 +22,4 @@ export {
 export { HCH, BudgetedHCH } from "./hch";
 export { Referent, Message, Channel, withSender, Pointer } from "./message";
 export { parseMessage, parseCommand } from "./parser";
+export { default as AsyncHCH, HaltHCH } from "./async";
