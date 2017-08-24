@@ -1,5 +1,5 @@
 {
-  "presets": ["latest"],
+  "presets": ["env"],
   "plugins": [
     "transform-flow-strip-types",
     "transform-class-properties",
