@@ -24,7 +24,7 @@ Open bash environment with node:
 
     docker-compose run bash
 
-Build and run index.js:
+Build and run example.js:
 
     docker-compose run hch
 
