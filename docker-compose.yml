@@ -15,7 +15,7 @@ services:
     volumes:
         - .:/data
     working_dir: /data
-    command: "/bin/bash -c 'yarn build && node build/index.js'"
+    command: "/bin/bash -c 'yarn build && node build/example.js'"
   debug:
     image: node:latest
     stdin_open: true
