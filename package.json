@@ -32,6 +32,6 @@
     "prettier": "^1.5.3"
   },
   "dependencies": {
-    "pegjs": "https://github.com/pegjs/pegjs.git"    
+    "pegjs": "https://github.com/oughtinc/pegjs.git"
   }
 }
