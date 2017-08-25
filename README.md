@@ -4,12 +4,20 @@ This is an implementation of Paul Christiano's [HCH](https://ai-alignment.com/st
 
 ## How to use
 
-Install using [yarn](https://yarnpkg.com/):
+### NPM package
+
+If you would like to use HCH as a library, install [the NPM package](https://www.npmjs.com/package/hch):
+
+    npm install --save hch  # or: yarn add hch
+
+### Manual installation
+
+Install from Github using [yarn](https://yarnpkg.com/):
 
     git clone https://github.com/oughtinc/hch.git
     cd hch
     yarn
-    yarn add readline-sync
+    yarn add readline-sync  # Only used in example.js
     yarn run build
 
 Then:

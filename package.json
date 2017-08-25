@@ -1,6 +1,7 @@
 {
   "name": "hch",
-  "version": "1.0.0",
+  "version": "0.1.0",
+  "description": "Humans consulting humans",  
   "main": "build/index.js",
   "scripts": {
     "build": "babel src/ -d build/",
