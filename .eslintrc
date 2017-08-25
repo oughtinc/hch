@@ -11,7 +11,10 @@
       "sourceType": "module"
   },
   "rules": {
-    "no-console": "off"
+    "no-console": "off",
+    "class-methods-use-this": "off",
+    "no-unused-vars": "off",
+    "no-use-before-define": "off"
   },
   "extends": [
     "airbnb-base",

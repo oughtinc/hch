@@ -13,7 +13,7 @@ export function range(low: number, high: number): Array<number> {
 }
 
 export function flatten<T>(xs: Array<Array<T>>): Array<T> {
-  return [].concat.apply([], xs);
+  return [].concat(...xs);
 }
 
 export function unweave<T>(xs: Array<T>): Array<Array<T>> {
@@ -26,8 +26,8 @@ export function unweave<T>(xs: Array<T>): Array<Array<T>> {
 
 export function interleave<T>(xs: Array<T>, ys: Array<T>): Array<T> {
   assert.ok(xs.length === ys.length || xs.length === ys.length + 1);
-  let result = [];
-  for (let i = 0; i < Math.min(xs.length, ys.length); i++) {
+  const result = [];
+  for (let i = 0; i < Math.min(xs.length, ys.length); i += 1) {
     result.push(xs[i]);
     result.push(ys[i]);
   }

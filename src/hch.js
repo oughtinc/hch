@@ -6,10 +6,6 @@ import { Message, Referent } from "./message";
 import { parseCommand, parseMessage } from "./parser";
 import { range } from "./utils";
 
-export function HCH(h: Human, n: Budget): Budgeter<Message, Message> {
-  return new Budgeter(new BudgetedHCH(h), n);
-}
-
 // HCH transforms an Agent (human) that operates on text into a
 // better-resourced BudgetedAgent that operates on messages.
 // The total bandwidth of HCH(H) is limited by the bandwidth of H.
@@ -83,11 +79,15 @@ export class BudgetedHCH extends BudgetedAgent<Message, Message> {
     let s = message.formatWithIndices(range(n, n + k));
     if (budget < 0) {
       throw new Error("It shouldn't be possible to get to < 0 budget.");
-    } else if (budget == 0) {
+    } else if (budget === 0) {
       s += "\n[You have no budget, type a s to reply]";
     } else {
       s += `\n[Remaining budget is ${budget.toString()}]`;
     }
     return s;
   }
+}
+
+export function HCH(h: Human, n: Budget): Budgeter<Message, Message> {
+  return new Budgeter(new BudgetedHCH(h), n);
 }

@@ -30,10 +30,7 @@ export class Message extends Referent {
 
   constructor(text: string | Array<string>, ...args: Array<Referent>) {
     super();
-    if (typeof text === "string") {
-      text = text.split("[]");
-    }
-    this.text = text;
+    this.text = typeof text === "string" ? text.split("[]") : text;
     this.args = args;
   }
 
@@ -66,11 +63,7 @@ export class Message extends Referent {
   }
 
   toString(): string {
-    return this.format(
-      this.args.map(arg => {
-        return `(${arg.toString()})`;
-      })
-    );
+    return this.format(this.args.map(arg => `(${arg.toString()})`));
   }
 }
 

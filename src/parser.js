@@ -1,16 +1,15 @@
 // @flow
 
-import path from "path";
-import fs from "fs";
 import peg from "pegjs";
 import grammar from "./grammar.pegjs";
-import { Command, MalformedCommand } from "./commands";
-import { Message } from "./message";
 
 // Parser environment:
 import * as CommandModule from "./commands";
 import * as MessageModule from "./message";
 import * as UtilsModule from "./utils";
+
+const { Command, MalformedCommand } = CommandModule;
+const { Message } = MessageModule;
 
 const messageParser = peg.generate(grammar, {
   allowedStartRules: ["Message"]

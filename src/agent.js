@@ -70,7 +70,7 @@ export class Budgeter<O, A> extends Agent<O, A> {
   }
 
   act(obs: O): { action: A, +agent: Budgeter<O, A> } {
-    const { action, agent } = this.budgetedAgent.act(obs, this.budget);
+    const { action } = this.budgetedAgent.act(obs, this.budget);
     return {
       action,
       agent: new Budgeter(this.budgetedAgent, this.budget)
