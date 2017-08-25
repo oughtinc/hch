@@ -1,12 +1,12 @@
 {
   "name": "hch",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Humans consulting humans",  
   "main": "build/index.js",
   "scripts": {
     "build": "babel src/ -d build/",
     "test": "yarn run build && node build/index.js",
-    "prepublish": "yarn run build",
+    "prepare": "yarn run build",
     "format": "prettier --write 'src/**/*.{js,jsx}'"
   },
   "devDependencies": {
