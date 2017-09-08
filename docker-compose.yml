@@ -6,6 +6,7 @@ services:
     tty: true
     volumes:
         - .:/data
+        - $HOME/.gitconfig:/root/.gitconfig        
     working_dir: /data
     command: /bin/bash
   hch:
