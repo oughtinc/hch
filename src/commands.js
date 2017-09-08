@@ -22,7 +22,7 @@ export class MalformedCommand extends Command {
   execute(env: BudgetedHCH, budget: Budget): ExecutionResult {
     return {
       obs: new Message(
-        "the valid commands are 'reply', 'ask', 'reflect', 'view', and 'ask@N'"
+        "the valid commands are 'reply', 'ask', 'note', 'reflect', 'view', and 'ask@N'"
       ),
       done: false,
       returnValue: null,
