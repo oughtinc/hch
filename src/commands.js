@@ -60,6 +60,24 @@ export class View extends Command {
   }
 }
 
+export class Note extends Command {
+  message: Message;
+
+  constructor(message: Message) {
+    super();
+    this.message = message;
+  }
+
+  execute(env: BudgetedHCH, budget: Budget): ExecutionResult {
+    return {
+      obs: this.message,
+      done: false,
+      returnValue: null,
+      spending: 1
+    };
+  }
+}
+
 export class Reply extends Command {
   message: Message;
 

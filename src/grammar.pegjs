@@ -1,6 +1,6 @@
 {
 
-  const { View, Reflect, Reply, Ask } = options.commands;
+  const { View, Reflect, Reply, Note, Ask } = options.commands;
   const { Message, Pointer, Channel } = options.message;
   const { assert, unweave, flatten } = options.utils;
   
@@ -86,6 +86,10 @@ ReplyCommand = "reply" _ message:Message {
     return new Reply(message);
   }
 
+NoteCommand = "note" _ message:Message {
+    return new Note(message);
+  }
+
 ReflectCommand = "reflect" {
     return new Reflect();
   }
@@ -94,4 +98,4 @@ ViewCommand = "view" _ message:Message {
     return new View(message);
   }
   
-Command = AskCommand / ReplyCommand / ReflectCommand / ViewCommand
+Command = AskCommand / ReplyCommand / ReflectCommand / ViewCommand / NoteCommand
