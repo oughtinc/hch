@@ -17,7 +17,7 @@ Install from Github using [yarn](https://yarnpkg.com/):
     git clone https://github.com/oughtinc/hch.git
     cd hch
     yarn
-    yarn add readline-sync  # Only used in example.js
+    yarn add readline-sync  # If you want to run example.js
     yarn run build
 
 Then:
@@ -36,7 +36,7 @@ Build and run example.js:
 
     docker-compose run hch
 
-Build index.js and run in debugger:
+Build and run example.js in debugger:
 
     docker-compose run --service-ports debug
 

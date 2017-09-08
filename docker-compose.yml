@@ -25,7 +25,7 @@ services:
         - "127.0.0.1:9229:9229"
     expose:
         - 9229
-    command: "/bin/bash -c 'yarn build && node --inspect=0.0.0.0:9229 --debug-brk build/index.js'"
+    command: "/bin/bash -c 'yarn build && node --inspect=0.0.0.0:9229 --debug-brk build/example.js'"
   flow:
     image: node:latest
     volumes:
