@@ -80,7 +80,7 @@ export class BudgetedHCH extends BudgetedAgent<Message, Message> {
     if (budget < 0) {
       throw new Error("It shouldn't be possible to get to < 0 budget.");
     } else if (budget === 0) {
-      s += "\n[You have no budget, type a s to reply]";
+      s += "\n[You have no budget, type a message to reply]";
     } else {
       s += `\n[Remaining budget is ${budget.toString()}]`;
     }
