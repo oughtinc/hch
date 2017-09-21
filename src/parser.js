@@ -1,6 +1,8 @@
 // @flow
 
 import peg from "pegjs";
+
+// $FlowFixMe
 import grammar from "./grammar.pegjs";
 
 // Parser environment:
