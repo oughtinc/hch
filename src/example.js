@@ -1,6 +1,6 @@
 // @flow
 
-import readlineSync from "readline-sync";
+import readlineSync from "readline-sync"; // eslint-disable-line import/no-extraneous-dependencies
 
 import { HCH } from "./hch";
 import { StatelessAgent } from "./agent";
