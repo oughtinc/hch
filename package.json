@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "babel-runtime": "^6.26.0",
+    "lodash": "^4.17.4",
     "pegjs": "https://github.com/oughtinc/pegjs.git",
     "pretty-ms": "^3.0.0"
   }
