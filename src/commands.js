@@ -6,7 +6,7 @@ import { NotImplementedError } from "./utils";
 import { Message, Channel, Pointer, withSender } from "./message";
 
 export type ExecutionResult = {
-  obs: ?Message,
+  observation: ?Message,
   done: boolean,
   returnValue: ?Message,
   spending: Budget
@@ -21,12 +21,12 @@ export class Command {
 export class MalformedCommand extends Command {
   execute(env: BudgetedHCH, budget: Budget): ExecutionResult {
     return {
-      obs: new Message(
+      observation: new Message(
         "the valid commands are 'reply', 'ask', 'note', 'reflect', 'view', and 'ask@N'"
       ),
       done: false,
       returnValue: null,
-      spending: 1
+      spending: 0
     };
   }
 }
@@ -34,10 +34,10 @@ export class MalformedCommand extends Command {
 export class Reflect extends Command {
   execute(env: BudgetedHCH, budget: Budget): ExecutionResult {
     return {
-      obs: new Message("you are []", new Channel(env)),
+      observation: new Message("you are []", new Channel(env)),
       done: false,
       returnValue: null,
-      spending: 1
+      spending: 0
     };
   }
 }
@@ -52,10 +52,10 @@ export class View extends Command {
 
   execute(env: BudgetedHCH, budget: Budget): ExecutionResult {
     return {
-      obs: this.message.instantiate(env.args),
+      observation: this.message.instantiate(env.args),
       done: false,
       returnValue: null,
-      spending: 1
+      spending: 0
     };
   }
 }
@@ -70,10 +70,10 @@ export class Note extends Command {
 
   execute(env: BudgetedHCH, budget: Budget): ExecutionResult {
     return {
-      obs: this.message,
+      observation: this.message,
       done: false,
       returnValue: null,
-      spending: 1
+      spending: 0
     };
   }
 }
@@ -88,10 +88,10 @@ export class Reply extends Command {
 
   execute(env: BudgetedHCH, budget: Budget): ExecutionResult {
     return {
-      obs: null,
+      observation: null,
       done: true,
       returnValue: this.message.instantiate(env.args),
-      spending: 1
+      spending: 0
     };
   }
 }
@@ -125,7 +125,7 @@ export class Ask extends Command {
   }
 
   execute(env: BudgetedHCH, budget: Budget): ExecutionResult {
-    const defaultBudget = budget / 10;
+    const defaultBudget = budget / 3;
     const maxBudget = budget - 1;
     const subBudget = Math.min(
       maxBudget,
@@ -139,10 +139,10 @@ export class Ask extends Command {
       budget: remaining
     } = recipient.act(message, subBudget);
     return {
-      obs: withSender(responder, response),
+      observation: withSender(responder, response),
       done: false,
       returnValue: null,
-      spending: subBudget - remaining + 1 // +1?
+      spending: subBudget - remaining
     };
   }
 }

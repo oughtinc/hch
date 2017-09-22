@@ -1,6 +1,11 @@
 // @flow
 
+import _ from "lodash";
+import prettyMs from "pretty-ms";
+
 import readlineSync from "readline-sync"; // eslint-disable-line import/no-extraneous-dependencies
+
+import type { StringWithTimeBudget, TimedStringResponse } from "./agent";
 
 import { HCH } from "./hch";
 import { StatelessAgent } from "./agent";
@@ -12,21 +17,28 @@ function clearScreen(): void {
 }
 
 function elicitInput(
-  observations: Array<string>,
-  actions: Array<string>
-): string {
+  observations: Array<StringWithTimeBudget>,
+  actions: Array<TimedStringResponse>
+): TimedStringResponse {
   clearScreen();
   const lines = interleave(
-    observations,
-    actions.map(action => `>>> ${action}`)
+    observations.map(observation => observation.text),
+    actions.map(action => `>>> ${action.text}`)
   );
   console.log(lines.join("\n\n"));
-  return readlineSync.question("\n>>> ");
+  const startTime = new Date();
+  const budgetRemaining = _.last(observations).budgetInMS;
+  const prompt = `\n>>> [${prettyMs(budgetRemaining, {
+    secDecimalDigits: 0
+  })}] `;
+  const text = readlineSync.question(prompt);
+  const msElapsed = new Date() - startTime;
+  return { text, msElapsed };
 }
 
 function main() {
   const human = new StatelessAgent(elicitInput);
-  const hch = new HCH(human, 10e6);
+  const hch = new HCH(human, 60 * 5 * 1000);
   const startMessage = parseMessage(
     "How many ping pong balls fit into a Boeing 747"
   );

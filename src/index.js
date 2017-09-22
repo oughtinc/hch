@@ -10,7 +10,15 @@ export type {
   Respond
 } from "./async";
 
-export { Agent, StatelessAgent, BudgetedAgent, Budgeter } from "./agent";
+export {
+  Agent,
+  StatelessAgent,
+  BudgetedAgent,
+  Budgeter,
+  TimedHuman,
+  TimedStringResponse,
+  StringWithTimeBudget
+} from "./agent";
 export {
   Command,
   MalformedCommand,

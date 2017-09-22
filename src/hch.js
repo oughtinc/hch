@@ -1,6 +1,12 @@
 // @flow
 
-import type { Human, Budget } from "./agent";
+import type {
+  Human,
+  Budget,
+  TimedHuman,
+  TimedStringResponse,
+  StringWithTimeBudget
+} from "./agent";
 import { Budgeter, BudgetedAgent } from "./agent";
 import { Message, Referent } from "./message";
 import { parseCommand, parseMessage } from "./parser";
@@ -10,12 +16,12 @@ import { range } from "./utils";
 // better-resourced BudgetedAgent that operates on messages.
 // The total bandwidth of HCH(H) is limited by the bandwidth of H.
 export class BudgetedHCH extends BudgetedAgent<Message, Message> {
-  h: Human;
+  h: TimedHuman;
   args: Array<Referent>;
   childBase: BudgetedHCH;
 
   constructor(
-    h: Human,
+    h: TimedHuman,
     childBase: ?BudgetedHCH = null,
     args: Array<Referent> = []
   ) {
@@ -37,26 +43,33 @@ export class BudgetedHCH extends BudgetedAgent<Message, Message> {
     +agent: BudgetedHCH,
     budget: Budget
   } {
-    const s = this.viewMessage(message, budget);
-    const { action: response, agent: newH } = this.h.act(s);
+    if (budget < 0) {
+      throw new Error("It shouldn't be possible to get to < 0 budget here.");
+    }
+    const state = {
+      text: this.viewMessage(message),
+      budgetInMS: budget
+    };
+    const { action: response, agent: newH } = this.h.act(state);
     const successor = new BudgetedHCH(
       newH,
       this.childBase,
       this.args.concat(message.args)
     );
-    if (budget <= 0) {
+    const intermediateBudget = budget - response.msElapsed;
+    if (intermediateBudget <= 0) {
       return {
-        action: parseMessage(response),
+        action: parseMessage("Out of budget."),
         agent: successor,
         budget: 0
       };
     }
-    const command = parseCommand(response);
-    const { obs, done, returnValue, spending } = command.execute(
+    const command = parseCommand(response.text);
+    const { observation, done, returnValue, spending } = command.execute(
       successor,
       budget
     );
-    const newBudget = budget - spending;
+    const newBudget = intermediateBudget - spending;
     if (done) {
       if (!(returnValue instanceof Message)) {
         throw new Error("returnValue should always be Message when done");
@@ -67,27 +80,22 @@ export class BudgetedHCH extends BudgetedAgent<Message, Message> {
         budget: newBudget
       };
     }
-    if (!(obs instanceof Message)) {
-      throw new Error("obs should always be Message while not done");
+    if (!(observation instanceof Message)) {
+      throw new Error("observation should always be Message while not done");
     }
-    return successor.act(obs, newBudget);
+    return successor.act(observation, newBudget);
   }
 
-  viewMessage(message: Message, budget: Budget): string {
+  viewMessage(message: Message): string {
     const n = this.args.length;
     const k = message.size();
-    let s = message.formatWithIndices(range(n, n + k));
-    if (budget < 0) {
-      throw new Error("It shouldn't be possible to get to < 0 budget.");
-    } else if (budget === 0) {
-      s += "\n[You have no budget, type a message to reply]";
-    } else {
-      s += `\n[Remaining budget is ${budget.toString()}]`;
-    }
-    return s;
+    return message.formatWithIndices(range(n, n + k));
   }
 }
 
-export function HCH(h: Human, n: Budget): Budgeter<Message, Message> {
-  return new Budgeter(new BudgetedHCH(h), n);
+export function HCH(
+  h: TimedHuman,
+  budgetInMS: Budget
+): Budgeter<Message, Message> {
+  return new Budgeter(new BudgetedHCH(h), budgetInMS);
 }

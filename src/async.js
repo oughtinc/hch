@@ -1,12 +1,20 @@
 // @flow
 
+import _ from "lodash";
+
+import type {
+  TimedHuman,
+  TimedStringResponse,
+  StringWithTimeBudget
+} from "./agent";
+
 import { StatelessAgent } from "./agent";
 import { HCH } from "./hch";
 import { parseMessage } from "./parser";
 
 export type Context = {|
-  observations: Array<string>,
-  actions: Array<string>
+  observations: Array<StringWithTimeBudget>,
+  actions: Array<TimedStringResponse>
 |};
 
 export type FinalState = {| isFinal: true, result: string |};
@@ -19,7 +27,7 @@ export type IntermediateState = {|
 
 export type AsyncState = FinalState | IntermediateState;
 
-export type Respond = (context: Context) => string;
+export type Respond = (context: Context) => TimedStringResponse;
 
 export class HaltHCH extends Error {
   context: Context;
@@ -32,15 +40,15 @@ export class HaltHCH extends Error {
 
 class AsyncHCH {
   respond: Respond;
-  agent: StatelessAgent<string, string>;
+  agent: TimedHuman;
 
   constructor(respond: Respond) {
     this.respond = context => respond(context);
     this.agent = new StatelessAgent(this.respondOrHalt.bind(this));
   }
 
-  run(root: string, budget: number): AsyncState {
-    const hch = HCH(this.agent, budget);
+  run(root: string, budgetInMS: number): AsyncState {
+    const hch = HCH(this.agent, budgetInMS);
     const startMessage = parseMessage(root);
     let result = null;
     try {
@@ -50,21 +58,27 @@ class AsyncHCH {
         return {
           isFinal: false,
           context: e.context,
-          rerun: () => this.run(root, budget)
+          rerun: () => this.run(root, budgetInMS)
         };
       }
       throw e;
     }
     return {
       isFinal: true,
-      result: result.action.toString()
+      result: result.action.text.toString()
     };
   }
 
-  respondOrHalt(observations: Array<string>, actions: Array<string>): string {
+  respondOrHalt(
+    observations: Array<StringWithTimeBudget>,
+    actions: Array<TimedStringResponse>
+  ): TimedStringResponse {
     const response = this.respond({ actions, observations });
     if (response) {
-      if (!(typeof response === "string")) {
+      if (
+        !(typeof response.text === "string") ||
+        !_.isNumber(response.msElapsed)
+      ) {
         throw new Error(
           `Wrong response type: ${typeof response} (got ${JSON.stringify(
             response

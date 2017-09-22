@@ -42,6 +42,18 @@ export class StatelessAgent<O, A> extends Agent<O, A> {
 
 export type Human = StatelessAgent<string, string>;
 
+export type TimedStringResponse = { text: string, msElapsed: number };
+
+export type StringWithTimeBudget = {
+  text: string,
+  budgetInMS: number
+};
+
+export type TimedHuman = StatelessAgent<
+  StringWithTimeBudget,
+  TimedStringResponse
+>;
+
 export type Budget = number;
 
 // Like an Agent, but tracks resource constraints.
