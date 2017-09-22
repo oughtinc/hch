@@ -42,7 +42,7 @@ export class StatelessAgent<O, A> extends Agent<O, A> {
 
 export type Human = StatelessAgent<string, string>;
 
-export type TimedStringResponse = { text: string, msElapsed: number };
+export type StringWithTimeElapsed = { text: string, msElapsed: number };
 
 export type StringWithTimeBudget = {
   text: string,
@@ -51,7 +51,7 @@ export type StringWithTimeBudget = {
 
 export type TimedHuman = StatelessAgent<
   StringWithTimeBudget,
-  TimedStringResponse
+  StringWithTimeElapsed
 >;
 
 export type Budget = number;

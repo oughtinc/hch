@@ -4,7 +4,7 @@ import type {
   Human,
   Budget,
   TimedHuman,
-  TimedStringResponse,
+  StringWithTimeElapsed,
   StringWithTimeBudget
 } from "./agent";
 import { Budgeter, BudgetedAgent } from "./agent";

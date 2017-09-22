@@ -16,7 +16,7 @@ export {
   BudgetedAgent,
   Budgeter,
   TimedHuman,
-  TimedStringResponse,
+  StringWithTimeElapsed,
   StringWithTimeBudget
 } from "./agent";
 export {

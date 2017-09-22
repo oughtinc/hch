@@ -3,9 +3,10 @@
 import _ from "lodash";
 import prettyMs from "pretty-ms";
 
-import readlineSync from "readline-sync"; // eslint-disable-line import/no-extraneous-dependencies
+// $FlowFixMe
+import readlineSync from "readline-sync"; // eslint-disable-line
 
-import type { StringWithTimeBudget, TimedStringResponse } from "./agent";
+import type { StringWithTimeBudget, StringWithTimeElapsed } from "./agent";
 
 import { HCH } from "./hch";
 import { StatelessAgent } from "./agent";
@@ -18,8 +19,8 @@ function clearScreen(): void {
 
 function elicitInput(
   observations: Array<StringWithTimeBudget>,
-  actions: Array<TimedStringResponse>
-): TimedStringResponse {
+  actions: Array<StringWithTimeElapsed>
+): StringWithTimeElapsed {
   clearScreen();
   const lines = interleave(
     observations.map(observation => observation.text),

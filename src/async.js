@@ -4,7 +4,7 @@ import _ from "lodash";
 
 import type {
   TimedHuman,
-  TimedStringResponse,
+  StringWithTimeElapsed,
   StringWithTimeBudget
 } from "./agent";
 
@@ -14,7 +14,7 @@ import { parseMessage } from "./parser";
 
 export type Context = {|
   observations: Array<StringWithTimeBudget>,
-  actions: Array<TimedStringResponse>
+  actions: Array<StringWithTimeElapsed>
 |};
 
 export type FinalState = {| isFinal: true, result: string |};
@@ -27,7 +27,7 @@ export type IntermediateState = {|
 
 export type AsyncState = FinalState | IntermediateState;
 
-export type Respond = (context: Context) => TimedStringResponse;
+export type Respond = (context: Context) => StringWithTimeElapsed;
 
 export class HaltHCH extends Error {
   context: Context;
@@ -71,8 +71,8 @@ class AsyncHCH {
 
   respondOrHalt(
     observations: Array<StringWithTimeBudget>,
-    actions: Array<TimedStringResponse>
-  ): TimedStringResponse {
+    actions: Array<StringWithTimeElapsed>
+  ): StringWithTimeElapsed {
     const response = this.respond({ actions, observations });
     if (response) {
       if (
