@@ -1,7 +1,6 @@
 // @flow
 
-import * as assert from "assert";
-import { NotImplementedError, last, interleave } from "./utils";
+import { NotImplementedError, last, interleave, assert } from "./utils";
 
 // A Referent is anything that can be referred to in a message,
 // including Messages, Pointers, and Channels

@@ -1,12 +1,6 @@
 // @flow
 
-import type {
-  Human,
-  Budget,
-  TimedHuman,
-  StringWithTimeElapsed,
-  StringWithTimeBudget
-} from "./agent";
+import type { Human, Budget, TimedHuman } from "./agent";
 import { Budgeter, BudgetedAgent } from "./agent";
 import { Message, Referent } from "./message";
 import { parseCommand, parseMessage } from "./parser";
