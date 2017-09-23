@@ -16,7 +16,7 @@ export function flatten<T>(xs: Array<Array<T>>): Array<T> {
   return [].concat(...xs);
 }
 
-export function unweave<T>(xs: Array<T>): Array<Array<T>> {
+export function unweave<T>(xs: Array<T>): [Array<T>, Array<T>] {
   const result = [[], []];
   xs.forEach((x, i) => {
     result[i % 2].push(x);

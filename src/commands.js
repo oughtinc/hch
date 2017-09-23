@@ -5,12 +5,23 @@ import type { BudgetedHCH } from "./hch";
 import { NotImplementedError } from "./utils";
 import { Message, Channel, Pointer, withSender } from "./message";
 
-export type ExecutionResult = {
-  observation: ?Message,
-  done: boolean,
-  returnValue: ?Message,
+type IntermediateExecutionResult = {|
+  done: false,
+  observation: Message,
+  returnValue: null,
   spending: Budget
-};
+|};
+
+type FinalExecutionResult = {|
+  done: true,
+  observation: null,
+  returnValue: Message,
+  spending: Budget
+|};
+
+export type ExecutionResult =
+  | IntermediateExecutionResult
+  | FinalExecutionResult;
 
 export class Command {
   execute(env: BudgetedHCH, budget: Budget): ExecutionResult {
@@ -19,7 +30,7 @@ export class Command {
 }
 
 export class MalformedCommand extends Command {
-  execute(env: BudgetedHCH, budget: Budget): ExecutionResult {
+  execute(env: BudgetedHCH, budget: Budget): IntermediateExecutionResult {
     return {
       observation: new Message(
         "the valid commands are 'reply', 'ask', 'note', 'reflect', 'view', and 'ask@N'"
@@ -32,7 +43,7 @@ export class MalformedCommand extends Command {
 }
 
 export class Reflect extends Command {
-  execute(env: BudgetedHCH, budget: Budget): ExecutionResult {
+  execute(env: BudgetedHCH, budget: Budget): IntermediateExecutionResult {
     return {
       observation: new Message("you are []", new Channel(env)),
       done: false,
@@ -50,7 +61,7 @@ export class View extends Command {
     this.message = message;
   }
 
-  execute(env: BudgetedHCH, budget: Budget): ExecutionResult {
+  execute(env: BudgetedHCH, budget: Budget): IntermediateExecutionResult {
     return {
       observation: this.message.instantiate(env.args),
       done: false,
@@ -68,7 +79,7 @@ export class Note extends Command {
     this.message = message;
   }
 
-  execute(env: BudgetedHCH, budget: Budget): ExecutionResult {
+  execute(env: BudgetedHCH, budget: Budget): IntermediateExecutionResult {
     return {
       observation: this.message,
       done: false,
@@ -86,7 +97,7 @@ export class Reply extends Command {
     this.message = message;
   }
 
-  execute(env: BudgetedHCH, budget: Budget): ExecutionResult {
+  execute(env: BudgetedHCH, budget: Budget): FinalExecutionResult {
     return {
       observation: null,
       done: true,
@@ -117,20 +128,18 @@ export class Ask extends Command {
     if (this.recipientChannelPointer) {
       const channel = this.recipientChannelPointer.instantiate(env.args);
       if (!(channel instanceof Channel)) {
-        throw new Error("recipient pointer must point to channel");
+        throw new Error("Recipient pointer must point to channel");
       }
       return channel.agent;
     }
     return env.child();
   }
 
-  execute(env: BudgetedHCH, budget: Budget): ExecutionResult {
+  execute(env: BudgetedHCH, budget: Budget): IntermediateExecutionResult {
     const defaultBudget = budget / 3;
+    const proposedBudget = this.budget != null ? this.budget : defaultBudget;
     const maxBudget = budget - 1;
-    const subBudget = Math.min(
-      maxBudget,
-      this.budget != null ? this.budget : defaultBudget
-    );
+    const subBudget = Math.min(maxBudget, proposedBudget);
     const message = withSender(env, this.message.instantiate(env.args));
     const recipient = this.recipient(env);
     const {
